@@ -11,7 +11,7 @@ import edu.ufsj.utils.Response;
 
 public class ConsultaController {
 
-	private ConsultaDao consultaDao = new ConsultaDao();
+	private ConsultaDao consultaDao = ConsultaDao.getInstance();
 
 	public Response<Consulta> cadastrarConsulta(Consulta consulta) {
 		if (!consulta.isValidForRegisterBD()) {

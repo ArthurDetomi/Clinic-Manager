@@ -11,8 +11,8 @@ import java.util.List;
 
 public class PacienteController {
 
-	private final PacienteDao pacienteDao = new PacienteDao();
-	private final ConsultaDao consultaDao = new ConsultaDao();
+	private final PacienteDao pacienteDao = PacienteDao.getInstance();
+	private final ConsultaDao consultaDao = ConsultaDao.getInstance();
 
 	public boolean cadastrarPaciente(Paciente paciente) throws PacienteJaExisteException {
 		if (pacienteDao.existsByCpf(paciente.getCpf())) {

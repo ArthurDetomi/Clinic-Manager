@@ -12,6 +12,19 @@ import edu.ufsj.utils.DateUtil;
 
 public class ConsultaDao extends AbstractGenericDao implements GenericDao<Consulta> {
 
+	private static ConsultaDao instance;
+
+	private ConsultaDao() {
+
+	}
+
+	public static ConsultaDao getInstance() {
+		if (instance == null) {
+			instance = new ConsultaDao();
+		}
+		return instance;
+	}
+
 	@Override
 	public boolean create(Consulta consulta) {
 		final String CREATE_CONSULTA_QUERY = "" //

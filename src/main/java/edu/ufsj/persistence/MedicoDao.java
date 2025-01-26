@@ -9,6 +9,20 @@ import edu.ufsj.model.Medico;
 import edu.ufsj.model.TipoUsuario;
 
 public class MedicoDao extends AbstractGenericDao implements GenericDao<Medico> {
+
+	private MedicoDao() {
+
+	}
+
+	private static MedicoDao instance;
+
+	public static MedicoDao getInstance() {
+		if (instance == null) {
+			instance = new MedicoDao();
+		}
+		return instance;
+	}
+
 	@Override
 	public boolean create(Medico medico) {
 		final String CREATE_MEDICO_QUERY = "INSERT INTO medicos (id, crm) VALUES (?, ?)";

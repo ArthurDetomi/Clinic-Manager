@@ -10,11 +10,11 @@ import edu.ufsj.model.Medico;
 
 public class MedicoController {
 
-	private final UsuarioDao usuarioDao = new UsuarioDao();
+	private final UsuarioDao usuarioDao = UsuarioDao.getInstance();
 
-	private final MedicoDao medicoDao = new MedicoDao();
+	private final MedicoDao medicoDao = MedicoDao.getInstance();
 
-	private final ConsultaDao consultaDao = new ConsultaDao();
+	private final ConsultaDao consultaDao = ConsultaDao.getInstance();
 
 	public boolean cadastrarMedico(Medico medico) throws UsuarioJaExisteException {
 		UsuarioController usuarioController = new UsuarioController();

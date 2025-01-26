@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UsuarioController {
 
-	private final UsuarioDao usuarioDao = new UsuarioDao();
+	private final UsuarioDao usuarioDao = UsuarioDao.getInstance();
 
 	public void realizarLogin(String login, String password) throws FalhaAutenticacaoUsuarioException {
 		Usuario usuario = usuarioDao.findByLoginAndPassword(login, password);
