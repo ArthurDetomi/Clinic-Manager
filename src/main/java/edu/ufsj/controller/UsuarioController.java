@@ -1,55 +1,10 @@
 package edu.ufsj.controller;
 
-import edu.ufsj.persistence.UsuarioDao;
-import edu.ufsj.exception.FalhaAutenticacaoUsuarioException;
-import edu.ufsj.exception.UsuarioJaExisteException;
-import edu.ufsj.model.TipoUsuario;
-import edu.ufsj.model.Usuario;
-import edu.ufsj.service.UserSession;
+import edu.ufsj.controller.strategy.behaviors.UsuarioBehavior;
+import edu.ufsj.controller.strategy.behaviors.NoConsultaBehavior;
 
-import java.util.List;
-
-public class UsuarioController {
-
-	private final UsuarioDao usuarioDao = UsuarioDao.getInstance();
-
-	public void realizarLogin(String login, String password) throws FalhaAutenticacaoUsuarioException {
-		Usuario usuario = usuarioDao.findByLoginAndPassword(login, password);
-
-		if (usuario == null) {
-			throw new FalhaAutenticacaoUsuarioException();
-		}
-
-		UserSession.getInstance().setLoggedUser(usuario);
-	}
-
-
-	public boolean cadastrarUsuario(Usuario usuario) throws UsuarioJaExisteException {
-		if (usuarioDao.findIdByLogin(usuario.getLogin()) != null) {
-			throw new UsuarioJaExisteException("Já existe um usuário com mesmo Login");
-		}
-
-		if (usuarioDao.existsByCpf(usuario.getCpf())) {
-			throw new UsuarioJaExisteException("Já existe um usuário com mesmo CPF");
-		}
-
-		return usuarioDao.create(usuario);
-	}
-
-	public List<Usuario> listarAtendentes() {
-		return usuarioDao.findAllByTipoUsuario(TipoUsuario.ATENDENTE);
-	}
-
-    public boolean excluirUsuario(Integer idUsuario) {
-		return usuarioDao.delete(idUsuario);
+public class UsuarioController extends Controller {
+    public UsuarioController() {
+        super(new UsuarioBehavior(), new NoConsultaBehavior(), new UsuarioBehavior());
     }
-
-	public List<Usuario> findAtendentesByStringSearch(String searchText) {
-		if (searchText.isBlank()) {
-			return usuarioDao.findAllByTipoUsuario(TipoUsuario.ATENDENTE);
-		}
-
-		return usuarioDao.findAllByTipoUsuarioAndStringSearch(TipoUsuario.ATENDENTE, searchText);
-	}
-
 }

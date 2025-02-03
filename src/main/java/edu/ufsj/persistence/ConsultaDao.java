@@ -1,6 +1,7 @@
 package edu.ufsj.persistence;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,12 +183,19 @@ public class ConsultaDao extends AbstractGenericDao implements GenericDao<Consul
 				+ "        INNER JOIN " //
 				+ "    usuarios AS u ON u.id = m.id " //
 				+ "WHERE " //
-				+ "    data_agendamento >= CURDATE() " //
-				+ "        AND data_agendamento < CURDATE() + INTERVAL 1 DAY " //
+				+ "    data_agendamento >= ? " //
+				+ "        AND data_agendamento < ? " //
 				+ "ORDER BY data_agendamento ASC";
 
 		try (Connection connection = getConnection()) {
 			PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_CONSULTAS_DE_HOJE_QUERY);
+
+			LocalDate today = LocalDate.now();
+			LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+			preparedStatement.setDate(1, Date.valueOf(today));
+			preparedStatement.setDate(2, Date.valueOf(tomorrow));
+
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {

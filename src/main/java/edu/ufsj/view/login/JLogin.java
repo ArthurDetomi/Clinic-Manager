@@ -4,12 +4,13 @@
  */
 package edu.ufsj.view.login;
 
+import javax.swing.*;
+
+import edu.ufsj.controller.Controller;
 import edu.ufsj.controller.UsuarioController;
 import edu.ufsj.exception.FalhaAutenticacaoUsuarioException;
 import edu.ufsj.service.UserSession;
 import edu.ufsj.view.home.JHome;
-
-import javax.swing.*;
 
 /**
  *
@@ -137,7 +138,7 @@ public class JLogin extends javax.swing.JFrame {
 			return;
 		}
 
-		UsuarioController usuarioController = new UsuarioController();
+		Controller usuarioController = new UsuarioController();
 
 		boolean loginRealizadoComSucesso = false;
 

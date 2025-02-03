@@ -6,6 +6,7 @@ package edu.ufsj.view.dialogs;
 
 import javax.swing.*;
 
+import edu.ufsj.controller.Controller;
 import edu.ufsj.controller.PacienteController;
 import edu.ufsj.exception.PacienteJaExisteException;
 import edu.ufsj.model.Paciente;
@@ -190,14 +191,14 @@ public class JDialogCadastroPaciente extends JDialogGeneric {
 			JOptionPane.showMessageDialog(null, "Cpf inválido", "Revise o cpf informado", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		PacienteController pacienteController = new PacienteController();
+		Controller pacienteController = new PacienteController();
 
 		Paciente paciente = new Paciente(nome, cpf, telefone, estado, cidade, numero);
 
 		boolean pacienteFoiCadastrado;
 
 		try {
-			pacienteFoiCadastrado = pacienteController.cadastrarPaciente(paciente);
+			pacienteFoiCadastrado = pacienteController.cadastrar(paciente);
 		} catch (PacienteJaExisteException pacienteJaExisteException) {
 			JOptionPane.showMessageDialog(null, pacienteJaExisteException.getMessage(), "Paciente com mesmo CPF",
 					JOptionPane.ERROR_MESSAGE);

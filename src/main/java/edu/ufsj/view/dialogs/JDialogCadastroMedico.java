@@ -5,16 +5,16 @@ package edu.ufsj.view.dialogs;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.time.LocalDateTime;
+
+import javax.swing.*;
+
+import edu.ufsj.controller.Controller;
 import edu.ufsj.controller.MedicoController;
 import edu.ufsj.exception.UsuarioJaExisteException;
 import edu.ufsj.model.Medico;
-import edu.ufsj.model.TipoUsuario;
-import edu.ufsj.model.Usuario;
 import edu.ufsj.utils.CpfUtil;
 import edu.ufsj.utils.EmailUtil;
-
-import javax.swing.*;
-import java.time.LocalDateTime;
 
 /**
  *
@@ -238,14 +238,14 @@ public class JDialogCadastroMedico extends JDialogGeneric {
 			return;
 		}
 
-		MedicoController medicoController = new MedicoController();
+		Controller medicoController = new MedicoController();
 
 		boolean medicoFoiCadastrado;
 
 		Medico medico = new Medico(login, password, cpf, nome, telefone, email, LocalDateTime.now(), crm);
 
 		try {
-			medicoFoiCadastrado = medicoController.cadastrarMedico(medico);
+			medicoFoiCadastrado = medicoController.cadastrar(medico);
 		} catch (UsuarioJaExisteException usuarioJaExisteException) {
 			JOptionPane.showMessageDialog(null, usuarioJaExisteException.getMessage(), "Usuario já existe error",
 					JOptionPane.ERROR_MESSAGE);
