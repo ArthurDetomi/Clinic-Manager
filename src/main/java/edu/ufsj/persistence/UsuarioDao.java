@@ -10,6 +10,19 @@ import edu.ufsj.model.Usuario;
 
 public class UsuarioDao extends AbstractGenericDao implements GenericDao<Usuario> {
 
+	private UsuarioDao() {
+
+	}
+
+	private static UsuarioDao instance;
+
+	public static UsuarioDao getInstance() {
+		if (instance == null) {
+			instance = new UsuarioDao();
+		}
+		return instance;
+	}
+
 	private final String FIND_BY_LOGIN_QUERY = "SELECT id FROM usuarios WHERE login = ?";
 
 	@Override

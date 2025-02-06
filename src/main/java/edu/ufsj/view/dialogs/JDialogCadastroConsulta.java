@@ -6,20 +6,15 @@ package edu.ufsj.view.dialogs;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.DefaultFormatterFactory;
 
 import edu.ufsj.controller.ConsultaController;
+import edu.ufsj.controller.Controller;
 import edu.ufsj.controller.MedicoController;
 import edu.ufsj.controller.PacienteController;
 import edu.ufsj.model.Consulta;
@@ -36,9 +31,9 @@ import edu.ufsj.view.table.PacienteTableModel;
  */
 public class JDialogCadastroConsulta extends JDialogGeneric {
 
-    private MedicoController medicoController = new MedicoController();
-    private PacienteController pacienteController = new PacienteController();
-    private ConsultaController consultaController = new ConsultaController();
+    private Controller medicoController = new MedicoController();
+    private Controller pacienteController = new PacienteController();
+    private Controller consultaController = new ConsultaController();
 
     private Paciente pacienteSelected;
     private Medico medicoSelected;
@@ -302,7 +297,7 @@ public class JDialogCadastroConsulta extends JDialogGeneric {
     private void atualizarTabelaComListaDeMedicos() {
         String medicoSearchText = jMedicoSearchTextField.getText();
 
-        List<Medico> medicos = medicoController.buscarMedicosByStringSearch(medicoSearchText);
+        List<Medico> medicos = (List<Medico>) medicoController.findByStringSearch(medicoSearchText);
 
         MedicoTableModel medicoTableModel = new MedicoTableModel(medicos);
 
@@ -316,7 +311,7 @@ public class JDialogCadastroConsulta extends JDialogGeneric {
     private void atualizarTabelaComListaDePacientes() {
         String pacienteSearchText = jPacientSearchTextField.getText();
 
-        List<Paciente> pacientes = pacienteController.buscarPacientesByStringSearch(pacienteSearchText);
+        List<Paciente> pacientes = (List<Paciente>) pacienteController.findByStringSearch(pacienteSearchText);
 
         PacienteTableModel pacienteTableModel = new PacienteTableModel(pacientes);
 

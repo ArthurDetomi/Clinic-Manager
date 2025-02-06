@@ -10,10 +10,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
-import edu.ufsj.controller.ConsultaController;
-import edu.ufsj.controller.MedicoController;
-import edu.ufsj.controller.PacienteController;
-import edu.ufsj.controller.UsuarioController;
+import edu.ufsj.controller.*;
 import edu.ufsj.model.*;
 import edu.ufsj.service.UserSession;
 import edu.ufsj.utils.Response;
@@ -33,10 +30,10 @@ import edu.ufsj.view.table.UsuarioTableModel;
  */
 public class JHome extends javax.swing.JFrame {
 
-    private PacienteController pacienteController = new PacienteController();
-    private MedicoController medicoController = new MedicoController();
-    private UsuarioController usuarioController = new UsuarioController();
-    private ConsultaController consultaController = new ConsultaController();
+	private Controller pacienteController = new PacienteController();
+	private Controller medicoController = new MedicoController();
+	private Controller usuarioController = new UsuarioController();
+	private Controller consultaController = new ConsultaController();
 
     /**
      * Creates new form JHome
@@ -245,12 +242,12 @@ public class JHome extends javax.swing.JFrame {
 
        JDialogCadastroPaciente jDialogCadastroPaciente = new JDialogCadastroPaciente();
        jDialogCadastroPaciente.abrirDialog();
-    }                                                 
+    }
 
     private void jListarConsultasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jListarConsultasButtonActionPerformed
        atualizarTabelaComListaDeConsultas();
     }//GEN-LAST:event_jListarConsultasButtonActionPerformed
-    
+
 
 	private void atualizarTabelaComListaDeConsultas() {
 		String filtro = (String) jFiltroConsultaBox.getSelectedItem();
@@ -263,7 +260,7 @@ public class JHome extends javax.swing.JFrame {
 				consultas = consultaController.findAllConsultasDeHoje();
 				break;
 			case "Todas":
-				consultas = consultaController.findAllConsultas();
+				consultas = (List<Consulta>) consultaController.findAll();
 				break;
 			}
 		} catch (Exception e) {
@@ -276,7 +273,7 @@ public class JHome extends javax.swing.JFrame {
 	}
 
     private void atualizarTabelaComListaDePacientes() {
-        List<Paciente> pacientes = pacienteController.listarPacientes();
+        List<Paciente> pacientes = (List<Paciente>) pacienteController.findAll();
 
         PacienteTableModel pacienteTableModel = new PacienteTableModel(pacientes);
 
@@ -284,7 +281,7 @@ public class JHome extends javax.swing.JFrame {
     }
 
     private void atualizarTabelaComListaDeAtendentes() {
-        List<Usuario> usuariosAtendentes = usuarioController.listarAtendentes();
+        List<Usuario> usuariosAtendentes = (List<Usuario>) usuarioController.findAll();
 
         UsuarioTableModel usuarioTableModel = new UsuarioTableModel(usuariosAtendentes);
 
@@ -292,7 +289,7 @@ public class JHome extends javax.swing.JFrame {
     }
 
     private void atualizarTabelaComListaDeMedicos() {
-        List<Medico> medicos = medicoController.listarMedicos();
+        List<Medico> medicos = (List<Medico>) medicoController.findAll();
 
         MedicoTableModel medicoTableModel = new MedicoTableModel(medicos);
 
@@ -319,7 +316,7 @@ public class JHome extends javax.swing.JFrame {
 
         JDialogCadastroAtendente jDialogCadastroAtendente = new JDialogCadastroAtendente();
         jDialogCadastroAtendente.abrirDialog();
-    }                                                  
+    }
 
 	private void jCadastroConsultaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jCadastroConsultaActionPerformed
 		if (!UserSession.getInstance().isUsuarioPodeCadastrarConsultaMedica()) {
@@ -329,7 +326,7 @@ public class JHome extends javax.swing.JFrame {
 		}
         JDialogCadastroConsulta jDialogCadastroConsulta = new JDialogCadastroConsulta();
         jDialogCadastroConsulta.abrirDialog();
-    }                                                 
+    }
 
     private void jListaPacientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jListaPacientesButtonActionPerformed
         atualizarTabelaComListaDePacientes();
@@ -348,25 +345,25 @@ public class JHome extends javax.swing.JFrame {
         String searchText = jSearchTextField.getText();
 
         if (currentTableModel instanceof UsuarioTableModel) {
-            List<Usuario> atendentes = usuarioController.findAtendentesByStringSearch(searchText);
+            List<Usuario> atendentes = (List<Usuario>) usuarioController.findByStringSearch(searchText);
 
             UsuarioTableModel usuarioTableModel = new UsuarioTableModel(atendentes);
 
             jTabelaListagens.setModel(usuarioTableModel);
         } else if (currentTableModel instanceof MedicoTableModel) {
-            List<Medico> medicos = medicoController.buscarMedicosByStringSearch(searchText);
+            List<Medico> medicos = (List<Medico>) medicoController.findByStringSearch(searchText);
 
             MedicoTableModel medicoTableModel = new MedicoTableModel(medicos);
 
             jTabelaListagens.setModel(medicoTableModel);
         } else if (currentTableModel instanceof PacienteTableModel) {
-            List<Paciente> pacientes = pacienteController.buscarPacientesByStringSearch(searchText);
+            List<Paciente> pacientes = (List<Paciente>) pacienteController.findByStringSearch(searchText);
 
             PacienteTableModel pacienteTableModel = new PacienteTableModel(pacientes);
 
             jTabelaListagens.setModel(pacienteTableModel);
         } else if (currentTableModel instanceof  ConsultaTableModel) {
-            List<Consulta> consultas = consultaController.findConsultasByStringSearch(searchText);
+            List<Consulta> consultas = (List<Consulta>) consultaController.findByStringSearch(searchText);
 
             ConsultaTableModel consultaTableModel = new ConsultaTableModel(consultas);
 
@@ -455,7 +452,7 @@ public class JHome extends javax.swing.JFrame {
 				return;
 			}
 
-			deletionSuccess = usuarioController.excluirUsuario(idUsuario);
+			deletionSuccess = usuarioController.excluir(idUsuario);
 
 			String cpf = usuarioTableModel.getValueAt(selectedRowIndex, 1).toString();
 
@@ -479,7 +476,7 @@ public class JHome extends javax.swing.JFrame {
 				return;
 			}
 
-			deletionSuccess = medicoController.excluirMedico(idUsuario);
+			deletionSuccess = medicoController.excluir(idUsuario);
 
 			String cpf = medicoTableModel.getValueAt(selectedRowIndex, 1).toString();
 
@@ -502,7 +499,7 @@ public class JHome extends javax.swing.JFrame {
 				return;
 			}
 
-			deletionSuccess = pacienteController.excluirPaciente(idPaciente);
+			deletionSuccess = pacienteController.excluir(idPaciente);
 
 			String cpf = pacienteTableModel.getValueAt(selectedRowIndex, 1).toString();
 
@@ -536,7 +533,7 @@ public class JHome extends javax.swing.JFrame {
 
             atualizarTabelaComListaDeConsultas();
         }
-    }                                                 
+    }
 
     /**
      * @param args the command line arguments

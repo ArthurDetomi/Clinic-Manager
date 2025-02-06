@@ -21,7 +21,7 @@ public class UsuarioTest {
 
         Usuario usuario = new Usuario(login, password, cpf, nome, telefone, email, editado, tipoUsuario);
 
-        UsuarioDao usuarioDao = new UsuarioDao();
+        UsuarioDao usuarioDao = UsuarioDao.getInstance();
 
         if (usuarioDao.create(usuario)) {
             System.out.println("Usuario criado");
@@ -34,7 +34,7 @@ public class UsuarioTest {
         String login = "diogo";
         String password = "diogosenha";
 
-        UsuarioDao usuarioDao = new UsuarioDao();
+        UsuarioDao usuarioDao = UsuarioDao.getInstance();
 
         Usuario usuario = usuarioDao.findByLoginAndPassword(login, password);
 

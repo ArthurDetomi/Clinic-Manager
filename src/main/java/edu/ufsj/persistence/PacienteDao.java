@@ -6,22 +6,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ufsj.config.DataBaseConfig;
 import edu.ufsj.model.Paciente;
 
-public class PacienteDao implements GenericDao<Paciente> {
+public class PacienteDao extends AbstractGenericDao implements GenericDao<Paciente> {
 
-	private Connection getConnection() {
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(DataBaseConfig.getURL(), DataBaseConfig.getUsername(),
-					DataBaseConfig.getPassword());
+	private PacienteDao() {
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+	}
+
+	private static PacienteDao instance;
+
+	public static PacienteDao getInstance() {
+		if (instance == null) {
+			instance = new PacienteDao();
 		}
-
-		return connection;
+		return instance;
 	}
 
 	@Override
