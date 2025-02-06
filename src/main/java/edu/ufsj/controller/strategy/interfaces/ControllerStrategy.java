@@ -1,7 +1,5 @@
 package edu.ufsj.controller.strategy.interfaces;
 
-import edu.ufsj.model.Consulta;
-
 import java.util.List;
 
 public interface ControllerStrategy {
